@@ -1,0 +1,2101 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT School Master - ISM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <!-- Animate.css for smooth animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- AOS for scroll animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* විශ්ව මූලික සැකසුම් */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #00d4ff;
+            --accent-light: #80e6ff;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --text: #f1f5f9;
+            --text-light: #cbd5e1;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --glass-bg: rgba(30, 41, 59, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --neon-glow: 0 0 20px var(--accent);
+            --neon-glow-light: 0 0 10px var(--accent-light);
+            --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --transition-fast: all 0.2s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: 'Inter', 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* 3D පසුබිම - වැඩිදියුණු කළ */
+        .bg-3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, var(--dark) 0%, #0c0c1a 30%, #16213e 70%, #1a1a2e 100%);
+            overflow: hidden;
+        }
+
+        .bg-3d::before {
+            content: '';
+            position: absolute;
+            width: 400%;
+            height: 400%;
+            top: -150%;
+            left: -150%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+            animation: rotate 80s linear infinite;
+        }
+
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.2) 0%, transparent 70%);
+            animation: float 25s infinite ease-in-out;
+            filter: blur(1px);
+        }
+
+        .floating-element:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 15%;
+            animation-delay: 0s;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.25) 0%, transparent 70%);
+        }
+
+        .floating-element:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 65%;
+            right: 10%;
+            animation-delay: -8s;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.2) 0%, transparent 70%);
+        }
+
+        .floating-element:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            bottom: 20%;
+            left: 5%;
+            animation-delay: -15s;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+        }
+
+        .floating-element:nth-child(4) {
+            width: 60px;
+            height: 60px;
+            top: 30%;
+            right: 25%;
+            animation-delay: -5s;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            33% { transform: translateY(-30px) rotate(120deg) scale(1.1); }
+            66% { transform: translateY(20px) rotate(240deg) scale(0.9); }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* පසුබිමේ ගමන් කරන තරු */
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* ශීර්ෂකය සහ සංචාලනය - වැඩිදියුණු කළ */
+        header {
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .header-scrolled {
+            padding: 12px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
+        }
+
+        .logo-icon {
+            color: var(--accent);
+            font-size: 2.2rem;
+            filter: drop-shadow(0 0 8px var(--accent));
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .logo-text {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 10px 16px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-links a:hover::before {
+            width: 80%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.6rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
+        }
+
+        /* ප්රධාන අංගය - වැඩිදියුණු කළ */
+        .hero {
+            padding: 120px 0 140px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 212, 255, 0.05) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(to right, var(--accent), var(--secondary), var(--accent-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.1;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            letter-spacing: -0.5px;
+        }
+
+        .hero h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: var(--text-light);
+            opacity: 0.9;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto 48px;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 18px 36px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::after {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: var(--neon-glow), var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 0 35px var(--accent), 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: var(--neon-glow-light);
+        }
+
+        /* වීදුරු මෝස්තර පෝරමය - වැඩිදියුණු කළ */
+        .onboarding-section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+            color: var(--text);
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .glass-form {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 48px;
+            max-width: 850px;
+            margin: 0 auto;
+            box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent), var(--secondary));
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--text-light);
+            font-size: 1.05rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 18px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 1.05rem;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.3);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 20px;
+            margin-top: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.15rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--neon-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px var(--accent);
+            letter-spacing: 1px;
+        }
+
+        /* ශ්රේණි අන්තර්ක්රියාකාරී බොත්තම් - වැඩිදියුණු කළ */
+        .grades-section {
+            padding: 100px 0;
+        }
+
+        .grades-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .grade-card {
+            background: linear-gradient(135deg, var(--dark-light), rgba(30, 41, 59, 0.9));
+            border-radius: 20px;
+            padding: 36px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .grade-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+        }
+
+        .grade-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .grade-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            border-color: var(--accent);
+            box-shadow: var(--neon-glow), var(--shadow);
+        }
+
+        .grade-card:hover::after {
+            opacity: 1;
+        }
+
+        .grade-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+            filter: drop-shadow(0 0 8px var(--accent));
+            transition: var(--transition);
+        }
+
+        .grade-card:hover .grade-icon {
+            transform: rotateY(180deg) scale(1.2);
+        }
+
+        .grade-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* පාඩම් අන්තර්ගත පෙන්වන ප්රදේශය - වැඩිදියුණු කළ */
+        .content-display {
+            background: var(--dark-light);
+            border-radius: 24px;
+            padding: 36px;
+            margin-top: 50px;
+            min-height: 450px;
+            display: none;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+        }
+
+        .content-display.active {
+            display: block;
+            animation: slideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 36px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .content-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 14px 28px;
+            background: rgba(15, 23, 42, 0.7);
+            border: none;
+            border-radius: 10px;
+            color: var(--text-light);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .tab-btn:hover::before {
+            left: 100%;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .resource-card {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 16px;
+            padding: 24px;
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+        }
+
+        .resource-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), var(--neon-glow-light);
+        }
+
+        .resource-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 5px var(--accent));
+        }
+
+        .resource-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+
+        .resource-desc {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .resource-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(37, 99, 235, 0.2);
+            color: var(--accent);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+        }
+
+        .resource-btn:hover {
+            background: rgba(37, 99, 235, 0.4);
+            transform: translateX(5px);
+        }
+
+        /* පරිපාලක පුවරුව - වැඩිදියුණු කළ */
+        .admin-section {
+            padding: 100px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 50px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--dark-light), rgba(30, 41, 59, 0.9));
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            border-left: 6px solid var(--accent);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.03) 50%, transparent 70%);
+            transform: translateX(-100%);
+        }
+
+        .stat-card:hover::before {
+            animation: shine 1.5s ease-out;
+        }
+
+        @keyframes shine {
+            100% { transform: translateX(100%); }
+        }
+
+        .stat-value {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 12px;
+            font-family: 'Poppins', sans-serif;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .admin-controls {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .admin-btn {
+            padding: 16px 32px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        /* පතුල - වැඩිදියුණු කළ */
+        footer {
+            background: linear-gradient(to bottom, var(--dark-light), rgba(15, 23, 42, 0.95));
+            padding: 80px 0 40px;
+            margin-top: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent), var(--secondary));
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 48px;
+            margin-bottom: 60px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 24px;
+            color: var(--accent);
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 14px;
+        }
+
+        .footer-links a, .footer-links li {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .social-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            transition: var(--transition);
+            text-decoration: none;
+            font-size: 1.2rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .social-icon:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-5px) rotate(10deg);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        /* ජංගම දුරකථන සහය - වැඩිදියුණු කළ */
+        @media (max-width: 1024px) {
+            .grades-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+            
+            .hero h1 {
+                font-size: 3.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(15, 23, 42, 0.95);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 24px;
+                border-radius: 0 0 20px 20px;
+                box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
+                border-top: 1px solid var(--glass-border);
+                border-left: 1px solid var(--glass-border);
+                border-right: 1px solid var(--glass-border);
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                display: flex;
+                animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            }
+
+            @keyframes slideDown {
+                from { opacity: 0; transform: translateY(-20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            .nav-links a {
+                padding: 16px 20px;
+                border-radius: 12px;
+                text-align: center;
+                font-size: 1.1rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 350px;
+                justify-content: center;
+            }
+
+            .glass-form {
+                padding: 32px 24px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .grades-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .section-title {
+                font-size: 2.3rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .grades-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.3rem;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 0 16px;
+            }
+        }
+
+        /* පහත සංචාලනය (මොබයිල්) - වැඩිදියුණු කළ */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 16px;
+            z-index: 1000;
+            border-top: 1px solid var(--glass-border);
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .bottom-nav {
+                display: flex;
+                justify-content: space-around;
+                animation: slideUpBottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            }
+            
+            @keyframes slideUpBottom {
+                from { transform: translateY(100%); }
+                to { transform: translateY(0); }
+            }
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            padding: 8px 12px;
+            border-radius: 12px;
+            min-width: 70px;
+        }
+
+        .nav-item i {
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+            transition: var(--transition);
+        }
+
+        .nav-item.active {
+            color: var(--accent);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .nav-item.active i {
+            filter: drop-shadow(0 0 5px var(--accent));
+        }
+
+        .nav-item:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        /* පරිපාලක පුවරුව - වැඩිදියුණු කළ */
+        .chart-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 32px;
+            margin-top: 40px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+        }
+
+        /* පුවරුව සජීවීකරණ */
+        .live-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--success), #34d399);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+
+        /* ප්‍රගති තීරුව */
+        .progress-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            height: 12px;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* තර්ජන පණිවුඩ */
+        .notification {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(150%);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 350px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* ලෝඩින් අනුප්‍රස්ථය */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s linear infinite;
+            margin-bottom: 24px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* නව ශීර්ෂක තීරුව */
+        .features-section {
+            padding: 100px 0;
+            background: rgba(15, 23, 42, 0.5);
+            position: relative;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--accent);
+            box-shadow: var(--neon-glow-light);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 24px;
+            filter: drop-shadow(0 0 10px var(--accent));
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .feature-desc {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* ප්‍රතිචාරදායක වගුව */
+        .responsive-table {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        th, td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        th {
+            background: rgba(37, 99, 235, 0.2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* දෝෂ පණිවුඩ */
+        .error-message {
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: var(--transition);
+        }
+
+        .error-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- ලෝඩින් තිරය -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+        <h2 style="color: var(--accent); margin-bottom: 10px; font-family: 'Poppins', sans-serif;">ICT School Master</h2>
+        <p style="color: var(--text-light);">පූරණය වෙමින්...</p>
+    </div>
+
+    <!-- 3D පසුබිම -->
+    <div class="bg-3d">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <!-- ශීර්ෂකය -->
+    <header id="mainHeader">
+        <div class="container">
+            <nav class="navbar">
+                <a href="#home" class="logo">
+                    <i class="fas fa-laptop-code logo-icon"></i>
+                    <span class="logo-text">ICT School Master</span>
+                </a>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home"><i class="fas fa-home"></i> මුල් පිටුව</a></li>
+        
+                    <li><a href="#grades"><i class="fas fa-book-open"></i>ශ්‍රේණිය අනුව පාඩම් </a></li>
+   
+                    <li><a href="#contact"><i class="fas fa-envelope"></i> අමතන්න</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+	
+
+    <!-- ප්රධාන අංගය -->
+    <section class="hero" id="home">
+        <div class="container">
+		<hr> <marquee> Hasarali Jayasundara  |    ICT අපේ ම පාසල    | 076 - 30 33 100 </marquee><hr>
+            <h1 class="animate__animated animate__fadeInDown">ICT අපේ ම පාසල </h1>
+            <h2 class="animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">Information and Communication Technology</h2>
+            <p class="animate__animated animate__fadeIn" style="animation-delay: 0.4s;">දැනුම හරියටම දෙන ලංකාවේ ICT පාසල<br>නවීනතම ඉගෙනුම් මාධ්‍ය, ප්‍රායෝගික පාඩම් සහ අන්තර්ක්‍රියාකාරී ක්‍රියාකාරකම් සමඟ ICT අධ්‍යාපනයේ විශිෂ්ට අත්දැකීමක්</p>
+            
+            <div class="cta-buttons animate__animated animate__fadeIn" style="animation-delay: 0.6s;">
+            
+                <a href="#grades" class="btn btn-primary">
+                    <i class="fas fa-play-circle"></i> පාඩම් බලන්න
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- නව ලක්ෂණ කොටස -->
+    
+    <!-- වීදුරු මෝස්තර පෝරමය -->
+    
+
+    <!-- ශ්රේණි අන්තර්ක්රියාකාරී බොත්තම් -->
+    <section class="grades-section" id="grades">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">ශ්‍රේණි අනුව  ICT පාඩම් </h2>
+            
+            <div class="grades-grid">
+                <!-- ශ්රේණි කාඩ්පත් -->
+                <div class="grade-card" data-grade="6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="grade-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3 class="grade-title">6 ශ්‍රේණිය</h3>
+					<p> නව අධ්‍යාපන ප්‍රතිසංස්කරණ යටතේ පාඩම් මාලාව </p>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-progress="85"></div>
+                    </div>
+                </div>
+                
+                <div class="grade-card" data-grade="7" data-aos="fade-up" data-aos-delay="150">
+                    <div class="grade-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3 class="grade-title">7 ශ්‍රේණිය</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-progress="78"></div>
+                    </div>
+                </div>
+                
+                <div class="grade-card" data-grade="8" data-aos="fade-up" data-aos-delay="200">
+                    <div class="grade-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3 class="grade-title">8 ශ්‍රේණිය</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-progress="92"></div>
+                    </div>
+                </div>
+                
+                <div class="grade-card" data-grade="9" data-aos="fade-up" data-aos-delay="250">
+                    <div class="grade-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3 class="grade-title">9 ශ්‍රේණිය</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-progress="70"></div>
+                    </div>
+                </div>
+                
+                <div class="grade-card" data-grade="10" data-aos="fade-up" data-aos-delay="300">
+                    <div class="grade-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3 class="grade-title">10 ශ්‍රේණිය</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-progress="88"></div>
+                    </div>
+                </div>
+                
+                <div class="grade-card" data-grade="11" data-aos="fade-up" data-aos-delay="350">
+                    <div class="grade-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3 class="grade-title">11 ශ්‍රේණිය</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-progress="65"></div>
+                    </div>
+                </div>
+                
+                <div class="grade-card" data-grade="12" data-aos="fade-up" data-aos-delay="400">
+                    <div class="grade-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3 class="grade-title">12 ශ්‍රේණිය</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-progress="95"></div>
+                    </div>
+                </div>
+                
+                <div class="grade-card" data-grade="13" data-aos="fade-up" data-aos-delay="450">
+                    <div class="grade-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3 class="grade-title">13 ශ්‍රේණිය</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-progress="82"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- අන්තර්ගත ප්රදර්ශන ප්රදේශය -->
+            <div class="content-display" id="contentDisplay">
+                <div class="content-header">
+                    <h3 id="selectedGradeTitle">6 ශ්‍රේණිය - ICT මූලික කරුණු</h3>
+                    <button class="btn-secondary" id="closeContent">
+                        <i class="fas fa-times"></i> වසන්න
+                    </button>
+                </div>
+                
+                <div class="content-tabs">
+                    <button class="tab-btn active" data-tab="lessons">පාඩම් ඒකක</button>
+                    <button class="tab-btn" data-tab="papers">ප්‍රශ්න පත්තර</button>
+                    <button class="tab-btn" data-tab="quizzes">මාර්ගගත ප්‍රශ්න</button>
+                    <button class="tab-btn" data-tab="videos">වීඩියෝ පාඩම්</button>
+                </div>
+                
+                <div class="content-grid" id="lessonsContent">
+                    <!-- පාඩම් ඒකක -->
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                        <h4 class="resource-title">පරිගණකය හැඳින්වීම</h4>
+                        <p class="resource-desc">පරිගණකයේ මූලික කොටස් සහ ක්‍රියාකාරීත්වය පිළිබඳ සවිස්තරාත්මක පාඩම</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-video"></i> වීඩියෝව බලන්න</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <h4 class="resource-title">මෘදුකාංග වර්ග</h4>
+                        <p class="resource-desc">පරිගණක මෘදුකාංග වර්ග සහ භාවිතය පිළිබඳ PDF නිබන්ධනය</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-download"></i> PDF බාගන්න</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-keyboard"></i>
+                        </div>
+                        <h4 class="resource-title">කීබෝඩ් භාවිතය</h4>
+                        <p class="resource-desc">කීබෝඩ් හැසිරවීමේ නිවැරදි ක්‍රම පිළිබඳ පුහුණු වීඩියෝ</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-video"></i> වීඩියෝව බලන්න</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-mouse"></i>
+                        </div>
+                        <h4 class="resource-title">මවුස් භාවිතය</h4>
+                        <p class="resource-desc">මවුස් හැසිරවීමේ පුහුණුව සහ ක්‍රියාකාරකම්</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-download"></i> PDF බාගන්න</a>
+                    </div>
+                </div>
+                
+                <div class="content-grid" id="papersContent" style="display:none;">
+                    <!-- ප්‍රශ්න පත්තර -->
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4 class="resource-title">පළමු වාර පරීක්ෂණය</h4>
+                        <p class="resource-desc">2025 පළමු වාර ICT පරීක්ෂණ ප්‍රශ්නපත්‍රය සහ උත්තර පත්‍රය</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-download"></i> බාගන්න</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4 class="resource-title">දෙවන වාර පරීක්ෂණය</h4>
+                        <p class="resource-desc">2025 දෙවන වාර ICT පරීක්ෂණ ප්‍රශ්නපත්‍රය සහ උත්තර පත්‍රය</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-download"></i> බාගන්න</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4 class="resource-title">වාර අවසාන පරීක්ෂණය</h4>
+                        <p class="resource-desc">2025 වාර අවසාන ICT පරීක්ෂණ ප්‍රශ්නපත්‍රය සහ උත්තර පත්‍රය</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-download"></i> බාගන්න</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4 class="resource-title">අතීත ප්‍රශ්න පත්‍ර</h4>
+                        <p class="resource-desc">2015-2024 කාලයේ ICT අතීත ප්‍රශ්න පත්‍ර සංග්‍රහය</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-download"></i> බාගන්න</a>
+                    </div>
+                </div>
+                
+                <div class="content-grid" id="quizzesContent" style="display:none;">
+                    <!-- මාර්ගගත ප්‍රශ්න -->
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h4 class="resource-title">පරිගණක මූලික කරුණු</h4>
+                        <p class="resource-desc">පරිගණක මූලික කරුණු පිළිබඳ ප්‍රශ්න 20 සහිත පරීක්ෂණය</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-play"></i> ප්‍රශ්න ආරම්භ කරන්න</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h4 class="resource-title">මෘදුකාංග සහ භාවිත</h4>
+                        <p class="resource-desc">පරිගණක මෘදුකාංග පිළිබඳ ප්‍රශ්න 25 සහිත පරීක්ෂණය</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-play"></i> ප්‍රශ්න ආරම්භ කරන්න</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h4 class="resource-title">ආදාන/ප්‍රතිදාන උපාංග</h4>
+                        <p class="resource-desc">පරිගණක ආදාන/ප්‍රතිදාන උපාංග පිළිබඳ ප්‍රශ්න 15</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-play"></i> ප්‍රශ්න ආරම්භ කරන්න</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h4 class="resource-title">ICT සමාජ බලපෑම</h4>
+                        <p class="resource-desc">ICT හි සමාජ බලපෑම් පිළිබඳ ප්‍රශ්න 10 සහිත පරීක්ෂණය</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-play"></i> ප්‍රශ්න ආරම්භ කරන්න</a>
+                    </div>
+                </div>
+                
+                <div class="content-grid" id="videosContent" style="display:none;">
+                    <!-- වීඩියෝ පාඩම් -->
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <h4 class="resource-title">පරිගණකයේ සංවර්ධනය</h4>
+                        <p class="resource-desc">පරිගණකයේ ඓතිහාසික සංවර්ධනය පිළිබඳ වීඩියෝ පාඩම</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-play-circle"></i> වීඩියෝව බලන්න</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <h4 class="resource-title">පරිගණක මෘදුකාංග</h4>
+                        <p class="resource-desc">පරිගණක මෘදුකාංග වර්ග පිළිබඳ සවිස්තරාත්මක වීඩියෝ</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-play-circle"></i> වීඩියෝව බලන්න</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <h4 class="resource-title">අන්තර්ජාල ආරක්ෂාව</h4>
+                        <p class="resource-desc">අන්තර්ජාල ආරක්ෂාව සහ සයිබර් අපරාධ පිළිබඳ වීඩියෝ</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-play-circle"></i> වීඩියෝව බලන්න</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <h4 class="resource-title">දත්ත සමුදාය කළමනාකරණය</h4>
+                        <p class="resource-desc">දත්ත සමුදාය කළමනාකරණය පිළිබඳ ප්‍රායෝගික වීඩියෝ</p>
+                        <a href="#" class="resource-btn"><i class="fas fa-play-circle"></i> වීඩියෝව බලන්න</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- පරිපාලක පුවරුව -->
+    <section class="admin-section" id="admin">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">පරිපාලක පුවරුව</h2>
+            
+            <div class="stats-grid" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-card">
+                    <div class="live-badge">
+                        <i class="fas fa-circle"></i> සජීවී
+                    </div>
+                    <div class="stat-value">12600</div>
+                    <div class="stat-label">ලියාපදිංචි සිසුන්</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-progress="100"></div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-value">.....</div>
+                    <div class="stat-label">පාඩම් ඒකක</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-progress="85"></div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-value">.....</div>
+                    <div class="stat-label">ප්‍රශ්න පත්තර</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-progress="75"></div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-value">.........</div>
+                    <div class="stat-label">මාර්ගගත ප්‍රශ්න</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" data-progress="65"></div>
+                    </div>
+                </div>
+            </div>
+            
+           
+                    
+                 
+            
+            
+
+    <!-- පතුල -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ICT School Master</h3>
+                    <p style="color: var(--text-light); margin-bottom: 24px; line-height: 1.7;">ශ්‍රී ලංකාවේ ICT අධ්‍යාපනය සඳහා නවීනතම ඉගෙනුම් වේදිකාව. නිවැරදි දැනුම, නිවැරදි ක්‍රම.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon" title="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-icon" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="social-icon" title="Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>වේගවත් සබැඳි</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fas fa-chevron-right"></i> මුල් පිටුව</a></li>
+           
+                        <li><a href="#grades"><i class="fas fa-chevron-right"></i> ශ්‍රේණි</a></li>
+                     
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> පොදු ප්‍රශ්න</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>මාධ්‍ය</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> වීඩියෝ පාඩම්</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> PDF නිබන්ධන</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> ප්‍රශ්න පත්තර</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> මාර්ගගත ප්‍රශ්න</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> පරීක්ෂණ පිළිසැරුම්</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>අමතන්න</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone"></i> 076-30-33-100</li>
+                    
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2026 ICT School Master - ISM - Gampola. සියලුම හිමිකම් ඇවිරිණි. | Hasarali Jayasundara
+            </div>
+        </div>
+    </footer>
+
+    <!-- පහත සංචාලනය (මොබයිල්) -->
+    <div class="bottom-nav">
+        <a href="#home" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>මුල් පිටුව</span>
+        </a>
+        <a href="#onboarding" class="nav-item">
+            <i class="fas fa-user-plus"></i>
+            <span>ලියාපදිංචිය</span>
+        </a>
+        <a href="#grades" class="nav-item">
+            <i class="fas fa-book-open"></i>
+            <span>ශ්‍රේණි</span>
+        </a>
+        <a href="#admin" class="nav-item">
+            <i class="fas fa-user-cog"></i>
+            <span>පරිපාලක</span>
+        </a>
+    </div>
+
+    <!-- තර්ජන පණිවුඩ -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle" style="font-size: 1.5rem; color: var(--success);"></i>
+        <div>
+            <strong id="notificationTitle">සාර්ථකව ලියාපදිංචි විය!</strong>
+            <p id="notificationMessage" style="margin-top: 5px; font-size: 0.9rem;">ඔබගේ තොරතුරු සුරක්ෂිතව ගබඩා කර ඇත.</p>
+        </div>
+    </div>
+
+    <!-- AOS Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // JavaScript කේතය - වැඩිදියුණු කළ
+        document.addEventListener('DOMContentLoaded', function() {
+            // AOS ප්‍රක්ෂේපණය ආරම්භ කරන්න
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 100,
+                easing: 'ease-out-cubic'
+            });
+            
+            // ලෝඩින් තිරය සඟවන්න
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 1500);
+            
+            // පසුබිමේ තරු නිර්මාණය කරන්න
+            createStars();
+            
+            // ශීර්ෂකය අනුගමනය කරන්න
+            const header = document.getElementById('mainHeader');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 100) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            });
+            
+            // මොබයිල් මෙනුව
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
+                    ? '<i class="fas fa-times"></i>' 
+                    : '<i class="fas fa-bars"></i>';
+            });
+            
+            // පිටුවේ ක්ලික් කිරීමකින් මොබයිල් මෙනුව වසන්න
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('#navLinks') && !event.target.closest('#mobileMenuBtn') && navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+            
+            // ශ්රේණි කාඩ්පත් ක්ලික් කිරීම
+            const gradeCards = document.querySelectorAll('.grade-card');
+            const contentDisplay = document.getElementById('contentDisplay');
+            const selectedGradeTitle = document.getElementById('selectedGradeTitle');
+            const closeContentBtn = document.getElementById('closeContent');
+            
+            // ශ්රේණි නම්
+            const gradeTitles = {
+                6: "6 ශ්‍රේණිය - ICT මූලික කරුණු",
+                7: "7 ශ්‍රේණිය - පරිගණක භාවිතය",
+                8: "8 ශ්‍රේණිය - වෙබ් නිර්මාණය",
+                9: "9 ශ්‍රේණිය - ග්‍රැෆික් සැලසුම",
+                10: "10 ශ්‍රේණිය - දත්ත සමුදාය",
+                11: "11 ශ්‍රේණිය - ජාලකරණය",
+                12: "12 ශ්‍රේණිය - මොබයිල් යෙදුම්",
+                13: "13 ශ්‍රේණිය - AI සහ පරිගණක විද්‍යාව"
+            };
+            
+            gradeCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const grade = this.getAttribute('data-grade');
+                    selectedGradeTitle.textContent = gradeTitles[grade];
+                    contentDisplay.classList.add('active');
+                    
+                    // පිටුවේ ඉහලට ගමනක්
+                    contentDisplay.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    // ප්‍රගති තීරු සක්‍රිය කරන්න
+                    animateProgressBars();
+                });
+            });
+            
+            closeContentBtn.addEventListener('click', function() {
+                contentDisplay.classList.remove('active');
+            });
+            
+            // ටැබ් පරිවර්තනය
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const lessonsContent = document.getElementById('lessonsContent');
+            const papersContent = document.getElementById('papersContent');
+            const quizzesContent = document.getElementById('quizzesContent');
+            const videosContent = document.getElementById('videosContent');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // සක්‍රීය ටැබය යාවත්කාලීන කරන්න
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // අන්තර්ගතය පෙන්වන්න
+                    const tab = this.getAttribute('data-tab');
+                    
+                    lessonsContent.style.display = 'none';
+                    papersContent.style.display = 'none';
+                    quizzesContent.style.display = 'none';
+                    videosContent.style.display = 'none';
+                    
+                    if (tab === 'lessons') {
+                        lessonsContent.style.display = 'grid';
+                    } else if (tab === 'papers') {
+                        papersContent.style.display = 'grid';
+                    } else if (tab === 'quizzes') {
+                        quizzesContent.style.display = 'grid';
+                    } else if (tab === 'videos') {
+                        videosContent.style.display = 'grid';
+                    }
+                });
+            });
+            
+            // පෝරමය ඉදිරිපත් කිරීම
+            const studentForm = document.getElementById('studentForm');
+            const notification = document.getElementById('notification');
+            const notificationTitle = document.getElementById('notificationTitle');
+            const notificationMessage = document.getElementById('notificationMessage');
+            
+            studentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // දෝෂ පණිවුඩ සඟවන්න
+                hideAllErrors();
+                
+                // පෝරමයේ දත්ත ලබාගන්න
+                const name = document.getElementById('name').value.trim();
+                const grade = document.getElementById('grade').value;
+                const whatsapp = document.getElementById('whatsapp').value.trim();
+                const school = document.getElementById('school').value.trim();
+                const district = document.getElementById('district').value;
+                
+                // සත්‍යාපනය
+                let isValid = true;
+                
+                if (!name) {
+                    showError('nameError');
+                    isValid = false;
+                }
+                
+                if (!grade) {
+                    showError('gradeError');
+                    isValid = false;
+                }
+                
+                if (!whatsapp) {
+                    showError('whatsappError');
+                    isValid = false;
+                } else {
+                    const phoneRegex = /^[0-9]{10}$/;
+                    if (!phoneRegex.test(whatsapp)) {
+                        showError('whatsappError');
+                        isValid = false;
+                    }
+                }
+                
+                if (!school) {
+                    showError('schoolError');
+                    isValid = false;
+                }
+                
+                if (!district) {
+                    showError('districtError');
+                    isValid = false;
+                }
+                
+                if (!isValid) {
+                    // දෝෂ පණිවුඩ පෙන්වන්න
+                    showNotification('දෝෂයකි!', 'කරුණාකර සියලුම කොටු නිවැරදිව පුරවන්න', 'danger');
+                    return;
+                }
+                
+                // යථාර්ථවාදී අවස්ථාවකදී, මෙහිදී දත්ත පසුබිම් ක්‍රමයට යවනු ලැබේ
+                // (Firebase, Supabase, හෝ අනෙකුත්)
+                
+                // සාර්ථක පණිවුඩය පෙන්වන්න
+                showNotification('සාර්ථකව ලියාපදිංචි විය!', `සුභ පැතුම් ${name}! ඔබ සාර්ථකව ලියාපදිංචි වී ඇත. ඔබට දැන් ${gradeTitles[grade]} පාඩම් බැලීමට හැකිය.`, 'success');
+                
+                // පෝරමය යළි පිහිටුවන්න
+                studentForm.reset();
+                
+                // ශ්රේණි වෙත ගමන් කරන්න
+                setTimeout(() => {
+                    document.getElementById('grades').scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            });
+            
+            // පරිපාලක පාලන බොත්තම්
+            document.getElementById('exportData').addEventListener('click', function() {
+                showNotification('දත්ත අපනයනය', 'සියලුම සිසුන්ගේ දත්ත Excel ගොනුවක් ලෙස බාගත වෙමින් පවතී...', 'info');
+            });
+            
+            document.getElementById('addLesson').addEventListener('click', function() {
+                showNotification('නව පාඩම', 'නව පාඩමක් එක් කිරීමේ පිටුව විවෘත වෙමින් පවතී...', 'info');
+            });
+            
+            document.getElementById('viewAnalytics').addEventListener('click', function() {
+                showNotification('විශ්ලේෂණය', 'සිසුන්ගේ විස්තර විශ්ලේෂණ පිටුව විවෘත වෙමින් පවතී...', 'info');
+            });
+            
+            document.getElementById('sendNotification').addEventListener('click', function() {
+                showNotification('නිවේදනය', 'සියලුම සිසුන්ට නිවේදනයක් යැවීමේ පිටුව විවෘත වෙමින් පවතී...', 'info');
+            });
+            
+            // පහත සංචාලනය සක්‍රිය කරන්න
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // ප්‍රගති තීරු සජීවීකරණය කරන්න
+            function animateProgressBars() {
+                const progressBars = document.querySelectorAll('.progress-bar');
+                progressBars.forEach(bar => {
+                    const progress = bar.getAttribute('data-progress');
+                    bar.style.width = `${progress}%`;
+                });
+            }
+            
+            // ප්‍රස්තාර තීරු සජීවීකරණය කරන්න
+            const chartBars = document.querySelectorAll('[data-height]');
+            chartBars.forEach(bar => {
+                const height = bar.getAttribute('data-height');
+                bar.style.height = `${height}%`;
+            });
+            
+            // දෝෂ පණිවුඩ කාර්යයන්
+            function showError(errorId) {
+                const errorElement = document.getElementById(errorId);
+                errorElement.classList.add('show');
+            }
+            
+            function hideError(errorId) {
+                const errorElement = document.getElementById(errorId);
+                errorElement.classList.remove('show');
+            }
+            
+            function hideAllErrors() {
+                const errorElements = document.querySelectorAll('.error-message');
+                errorElements.forEach(error => {
+                    error.classList.remove('show');
+                });
+            }
+            
+            // ආදාන ක්ෂේත්‍ර සඳහා දෝෂ සඟවන්න
+            const formInputs = document.querySelectorAll('.form-input');
+            formInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const errorId = this.id + 'Error';
+                    if (document.getElementById(errorId)) {
+                        hideError(errorId);
+                    }
+                });
+            });
+            
+            // තර්ජන පණිවුඩ කාර්යය
+            function showNotification(title, message, type = 'success') {
+                notificationTitle.textContent = title;
+                notificationMessage.textContent = message;
+                
+                // වර්ගය අනුව වර්ණ සකසන්න
+                if (type === 'success') {
+                    notification.style.background = 'linear-gradient(135deg, var(--success), #34d399)';
+                } else if (type === 'danger') {
+                    notification.style.background = 'linear-gradient(135deg, var(--danger), #f87171)';
+                } else {
+                    notification.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
+                }
+                
+                notification.classList.add('show');
+                
+                // 5 තත්පරයකට පසු පණිවුඩය සඟවන්න
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 5000);
+            }
+            
+            // පසුබිමේ තරු නිර්මාණය කිරීම
+            function createStars() {
+                const bg3d = document.querySelector('.bg-3d');
+                const starCount = 50;
+                
+                for (let i = 0; i < starCount; i++) {
+                    const star = document.createElement('div');
+                    star.classList.add('star');
+                    
+                    // අහඹු ප්‍රමාණය
+                    const size = Math.random() * 3 + 1;
+                    star.style.width = `${size}px`;
+                    star.style.height = `${size}px`;
+                    
+                    // අහඹු පිහිටීම
+                    star.style.left = `${Math.random() * 100}%`;
+                    star.style.top = `${Math.random() * 100}%`;
+                    
+                    // අහඹු කැපී පෙනෙන බව
+                    star.style.opacity = Math.random() * 0.7 + 0.3;
+                    
+                    // අහඹු අනිමේෂන කාලය
+                    star.style.animationDelay = `${Math.random() * 5}s`;
+                    star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                    
+                    bg3d.appendChild(star);
+                }
+            }
+            
+            // පිළිගැනීමේ පණිවුඩය
+            console.log('ICT School Master වෙබ් අඩවිය සාර්ථකව පූරණය විය!');
+            console.log('සජීවීකරණ සහ අන්තර්ක්‍රියාකාරී අංග සක්‍රිය කර ඇත.');
+        });
+    </script>
+</body>
+</html>
